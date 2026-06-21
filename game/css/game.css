@@ -2,14 +2,46 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background: linear-gradient(135deg, #e0c3fc, #8ec5fc);
+  background: linear-gradient(135deg, #dab1ff, #fbcee8);
   text-align: center;
+  align-items: center;
+  height: 100vh;
 }
 
-.container {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
+.top {
+  display: flex;
+  flex-direction: row;
+  text-decoration: none;
+  color: #6a0dad;
+  font-weight: bold;
+  top: 20px;
+  left: 20px;
+}
+
+.back a {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+.new a {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 15px;
+  padding: 15px;
+  width: 500px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  align-items: center;
+  margin: 15px auto 0;
+  margin-bottom: 30px;
+  height: 565px;
 }
 
 .title {
@@ -26,7 +58,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin: 30px 0;
+  margin: 15px 0;
 }
 
 .row {
@@ -38,7 +70,7 @@ body {
 .cell {
   width: 50px;
   height: 50px;
-  border: 2px solid #ccc;
+  border: 1.5px solid #adadad;
   border-radius: 6px;
   background: #fff;
   font-size: 1.5rem;
@@ -51,11 +83,14 @@ body {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin: 15px;
 }
 
 .keyboard-row {
   display: flex;
+  flex-direction: row;
   justify-content: center;
+  align-items: center;
   gap: 5px;
 }
 
@@ -63,16 +98,23 @@ body {
   padding: 10px;
   border: none;
   border-radius: 6px;
-  background: #eee;
   font-weight: bold;
   cursor: pointer;
+}
+
+.letter {
+  background: #eee;
+  width: 32px;
+  height: 37px;
 }
 
 .keyboard button:hover {
   background: #ddd;
 }
 
-.enter {
+.special {
+  width: 70px;
+  height: 37px;
   background: #6a0dad;
   color: #fff;
 }
