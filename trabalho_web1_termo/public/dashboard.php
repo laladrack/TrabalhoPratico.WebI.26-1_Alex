@@ -29,7 +29,18 @@ $liga_selecionada = isset($_GET['liga_id']) ? (int)$_GET['liga_id'] : null;
             </div>
         </div>
     </nav>
+    
+    <?php if (isset($_GET['erro'])): ?>
+    <div style="background: #fce8e6; color: #cc0000; border: 1px solid #f8cbcb; padding: 12px 20px; width: 90%; max-width: 1100px; margin: 0 auto 20px auto; border-radius: 8px; font-weight: bold; font-size: 0.95rem; box-sizing: border-box;">
+        ❌ <?= htmlspecialchars($_GET['erro']) ?>
+    </div>
+<?php endif; ?>
 
+<?php if (isset($_GET['sucesso'])): ?>
+    <div style="background: #edf7ed; color: #1e4620; border: 1px solid #c2e7c4; padding: 12px 20px; width: 90%; max-width: 1100px; margin: 0 auto 20px auto; border-radius: 8px; font-weight: bold; font-size: 0.95rem; box-sizing: border-box;">
+        ✅ <?= htmlspecialchars($_GET['sucesso']) ?>
+    </div>
+<?php endif; ?>
     <div class="main-container">
         
         <div class="left-column">

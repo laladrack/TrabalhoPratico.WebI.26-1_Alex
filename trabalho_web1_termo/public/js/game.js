@@ -78,7 +78,7 @@ async function confirmarTentativa() {
   const validas = palavras.map((p) => normalizarTexto(p));
   if (!validas.includes(tentativa)) {
     mostrarMensagem("Palavra inválida!");
-    return;
+    return; 
   }
 
   const resultado = avaliarTentativa(tentativa, palavraSecreta);
@@ -101,6 +101,8 @@ async function confirmarTentativa() {
       if (ganhou) {
         jogoAtivo = false;
         
+        //1a tentativa (tentativaAtual = 1): (6 - 0) * 10 = 60 pontos
+        //6atentativa (tentativaAtual = 6): (6 - 5) * 10 = 10 pontos
         const pontosGanhos = (TOTAL_TENTATIVAS - (tentativaAtual - 1)) * 10;
         
         mostrarMensagem(`🎉 Parabéns! Acertou! (+${pontosGanhos} pontos)`);
@@ -119,19 +121,24 @@ async function confirmarTentativa() {
 }
 
 function enviarPontuacaoParaServidor(pontos) {
-  fetch('../src/Actions/salvar_pontuacao.php', {
+  fetch('../src/Actions/salvar_partida.php', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({ pontos: pontos })
   })
-  .then(response => response.json())
+  .then(response => {
+    if (!response.ok) {
+       throw new Error("Erro na requisição HTTP");
+    }
+    return response.json();
+  })
   .then(data => {
-    console.log("Resposta do Servidor:", data.mensagem);
+    console.log("Banco de dados atualizado:", data.mensagem);
   })
   .catch(error => {
-    console.error("Erro ao salvar pontuação:", error);
+    console.error("Erro crítico ao salvar pontuação:", error);
   });
 }
 
