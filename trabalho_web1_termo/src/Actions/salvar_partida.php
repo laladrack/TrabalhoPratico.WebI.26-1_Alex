@@ -18,7 +18,7 @@ if (isset($dados['pontos'])) {
     $pontos = (int)$dados['pontos'];
     
     try {
-        $stmt = $pdo->prepare("INSERT INTO partidas (usuario_id, pontos, data_partida) VALUES (:usuario_id, :pontos, NOW())");
+        $stmt = $pdo->prepare("INSERT INTO partidas (usuario_id, pontuacao, data_partida) VALUES (:usuario_id, :pontos, NOW())");
         $stmt->execute([
             ':usuario_id' => $usuario_id,
             ':pontos' => $pontos
@@ -28,11 +28,11 @@ if (isset($dados['pontos'])) {
         exit;
     } catch (PDOException $e) {
         http_response_code(500);
-        echo json_encode(['sucesso' => false, 'mensagem' => 'Erro ao salvar no banco de dados: ' . $e->getMessage()]);
+        echo json_encode(['sucesso' => false, 'mensagem' => 'Erro no banco de dados.']);
         exit;
     }
 } else {
     http_response_code(400);
-    echo json_encode(['sucesso' => false, 'mensagem' => 'Dados de pontuação ausentes.']);
+    echo json_encode(['sucesso' => false, 'mensagem' => 'Dados ausentes.']);
     exit;
 }

@@ -27,7 +27,7 @@ try {
 
     $pdo->beginTransaction();
 
-    $stmt_liga = $pdo->prepare("INSERT INTO ligas (nome, palavra_chave, criador_id) VALUES (:nome, :chave, :criador)");
+    $stmt_liga = $pdo->prepare("INSERT INTO ligas (nome, palavra_chave, criado_por) VALUES (:nome, :chave, :criador)");
     $stmt_liga->execute([
         ':nome' => $nome_liga,
         ':chave' => $palavra_chave,
@@ -36,7 +36,7 @@ try {
 
     $liga_id = $pdo->lastInsertId();
 
-    $stmt_membro = $pdo->prepare("INSERT INTO liga_usuarios (liga_id, usuario_id) VALUES (:liga_id, :usuario_id)");
+    $stmt_membro = $pdo->prepare("INSERT INTO liga_membros (liga_id, usuario_id) VALUES (:liga_id, :usuario_id)");
     $stmt_membro->execute([
         ':liga_id' => $liga_id,
         ':usuario_id' => $usuario_id
