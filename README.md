@@ -1,131 +1,141 @@
 # TERMO 🟩
 
-Clone do Wordle em português com sistema de autenticação, ligas entre jogadores e placar global/semanal.
+**TERMO** é um clone em português do Wordle com sistema de autenticação, ligas e placar integrado.
 
----
+## Visão Geral
+
+- Jogo de adivinhação de palavras em 6 tentativas
+- Cadastro, login e sessão de usuário
+- Placar global e semanal
+- Ligas com acesso por palavra-chave
+- Histórico de partidas por usuário
 
 ## Tecnologias
 
-- **Front-end:** HTML, CSS, JavaScript
-- **Back-end:** PHP 
-- **Banco de dados:** MySQL
-- **Servidor local:** XAMPP
+- PHP 
+- MySQL
+- HTML / CSS / JavaScript
+- XAMPP para execução local
 
----
+## Estrutura do Projeto
+
+- `public/` — frontend e páginas públicas
+  - `index.php` — tela inicial
+  - `login.php` — login de usuários
+  - `register.php` — cadastro de novos usuários
+  - `dashboard.php` — painel com placar e ligas
+  - `game.php` — jogo principal
+  - `relatorio.php` — histórico de partidas
+  - `js/game.js` — lógica do jogo e requisições de pontuação
+  - `js/data/palavras.json` — dicionário de palavras válidas
+- `config/db.php` — conexão com o MySQL
+- `src/` — backend protegido
+  - `Auth/login_process.php` — validação do login
+  - `Auth/cadastro_process.php` — cadastro de usuário
+  - `Actions/salvar_partida.php` — grava resultados das partidas
+  - `Actions/criar_liga.php` — criação de ligas
+  - `Actions/entrar_liga.php` — entrada em ligas
+  - `Queries/consultas_placar.php` — consultas de ranking
+- `database/schema.sql` — esquema para criar tabelas do banco
 
 ## Instalação
 
-### Pré-requisitos
+### 1. Copie para o XAMPP
 
-- XAMPP (ou equivalente) com Apache e MySQL ativos
-- PHP 8.0 ou superior
+Coloque a pasta `trabalho_web1_termo` em:
 
-### Passo a passo
-
-**1. Clonar ou copiar o projeto**
-
-Coloque a pasta `trabalho_web1_termo` dentro de `htdocs` (XAMPP) ou `www` (WAMP):
-
-```
-C:/xampp/htdocs/trabalho_web1_termo/
+```bash
+C:/xampp/htdocs/
 ```
 
-**2. Criar o banco de dados**
+### 2. Crie o banco de dados
 
-Acesse o phpMyAdmin (`http://localhost/phpmyadmin`) e importe o arquivo:
+Abra o phpMyAdmin em:
 
+```url
+http://localhost/phpmyadmin
 ```
-database/criacao_sql.sql
+
+Importe o arquivo:
+
+```bash
+database/schema.sql
 ```
 
-Isso cria o banco `jogo_web1` com todas as tabelas necessárias.
 
-**3. Configurar a conexão**
+### 3. Configure a conexão
 
-Abra `config/db.php` e ajuste as credenciais se necessário:
+Edite `config/db.php` se necessário:
 
 ```php
 $host = 'localhost';
 $db   = 'jogo_web1';
 $user = 'root';
-$pass = '';        // senha do MySQL (vazio no XAMPP padrão)
+$pass = ''; // senha padrão do XAMPP
 ```
 
-**4. Popular o dicionário de palavras**
+### 5. Acesse a aplicação
 
-Acesse no navegador:
+Navegue para:
 
-```
-http://localhost/trabalho_web1_termo/public/povoar.php
-```
-
-Isso insere as palavras do `palavras.json` na tabela `Dicionario_Palavras`. Execute apenas uma vez.
-
-**5. Acessar o projeto**
-
-```
+```url
 http://localhost/trabalho_web1_termo/public/index.php
 ```
 
----
+## Uso
 
-## Como jogar
+1. Clique em **Começar a Jogar**
+2. Faça cadastro ou login
+3. Entre no dashboard
+4. Clique em **JOGAR AGORA**
+5. Digite palavras de 5 letras e use **ENTER** para confirmar
 
-1. Crie uma conta na tela de cadastro
-2. Faça login
-3. Clique em **Jogar Agora** no dashboard
-4. Tente adivinhar a palavra de 5 letras em até **6 tentativas**
+## Regras do Jogo
 
-### Feedback por cores
+- A palavra tem 5 letras
+- Você tem 6 tentativas
+- `🟩` letra correta na posição correta
+- `🟨` letra correta na posição errada
+- `⬜` letra não está na palavra
 
-| Cor | Significado |
-|---|---|
-| 🟩 Verde | Letra correta na posição correta |
-| 🟨 Amarelo | Letra correta na posição errada |
-| ⬜ Cinza | Letra não está na palavra |
+## Sistema de Pontuação
 
----
+- 1ª tentativa = 60 pontos
+- 2ª tentativa = 50 pontos
+- 3ª tentativa = 40 pontos
+- 4ª tentativa = 30 pontos
+- 5ª tentativa = 20 pontos
+- 6ª tentativa = 10 pontos
+- derrota = 0 pontos
 
-## Sistema de pontuação
+## Funcionalidades
 
-A pontuação de cada partida é calculada como:
+### Autenticação
 
-```
-pontos = 7 - número de tentativas  (somente em caso de vitória)
-```
+- Cadastro com nome, email e senha
+- Login por email e senha
 
-Exemplos: acertar na 1ª tentativa = 6 pts, na 6ª tentativa = 1 pt, derrota = 0 pts.
+### Jogo
 
----
+- Palavras carregadas de `public/js/data/palavras.json`
+- Validação de palavras pelo dicionário
+- Feedback visual por cor em cada tentativa
+- Salva pontuação ao finalizar a partida
 
-## Ligas
+### Histórico e placar
 
-No dashboard é possível:
+- `dashboard.php` mostra o placar global e semanal
+- `relatorio.php` mostra o histórico de partidas do usuário
+- Ranking de ligas com seleção por liga
 
-- **Criar uma liga** — define nome e palavra-chave de acesso
-- **Entrar em uma liga** — informa o nome exato e a palavra-chave
-- **Ver o placar da liga** — ranking geral (desde a criação) e semanal (últimos 7 dias)
+### Ligas
 
----
+- Criar liga com nome e palavra-chave
+- Entrar em liga existente
+- Placar específico para a liga selecionada
 
-## Segurança
 
-- Senhas armazenadas com **bcrypt** (`password_hash` / `password_verify`)
-- Proteção contra **SQL injection** via PDO com prepared statements
-- Proteção contra **session fixation** com `session_regenerate_id()`
-- Dados de usuário exibidos com `htmlspecialchars()` para prevenir **XSS**
-- Arquivos de back-end (`src/`, `config/`) fora da pasta pública
 
----
+Trabalho final de WEB 1
 
-## Observações
 
-- O arquivo `povoar.php` deve ser executado apenas uma vez e pode ser removido após popular o banco
-- Em ambiente de produção, configure a variável `$pass` em `config/db.php` com uma senha forte e nunca exponha esse arquivo publicamente
-- O jogo funciona offline para o usuário; a partida só é salva no banco se o jogador estiver autenticado
-
----
-
-## Autores
-
-Projeto desenvolvido para a disciplina de Desenvolvimento Web — UFPR.
