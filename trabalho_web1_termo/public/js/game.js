@@ -11,7 +11,7 @@ let listaPalavras = [];
 async function carregarPalavras() {
   if (listaPalavras.length > 0) return listaPalavras; // usa cache
 
-  const response = await fetch("data/palavras.json");
+  const response = await fetch("js/data/palavras.json");
   const data = await response.json();
   const validas = data.palavras
     .map((p) => normalizarTexto(p))
