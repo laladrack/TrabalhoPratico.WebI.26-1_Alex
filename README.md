@@ -42,6 +42,11 @@ web1/
     └── Queries/
         └── consultas_placar.php# Queries de agregação para rankings globais/semanais
 ```
+## Instalação
+
+### 1. Salve os arquivos no diretório de seu servidor local
+
+C:/xampp/htdocs
 
 ### 2. Crie o banco de dados
 
