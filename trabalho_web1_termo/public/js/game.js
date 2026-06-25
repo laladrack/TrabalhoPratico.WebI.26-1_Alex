@@ -74,12 +74,7 @@ async function confirmarTentativa() {
     .map((c) => c.textContent)
     .join("");
 
-  const palavras = await carregarPalavras();
-  const validas = palavras.map((p) => normalizarTexto(p));
-  if (!validas.includes(tentativa)) {
-    mostrarMensagem("Palavra inválida!");
-    return; 
-  }
+  
 
   const resultado = avaliarTentativa(tentativa, palavraSecreta);
 
