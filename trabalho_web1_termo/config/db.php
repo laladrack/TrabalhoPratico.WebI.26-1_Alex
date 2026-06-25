@@ -1,9 +1,9 @@
 <?php
 
 $host = 'localhost';
-$db   = 'web1_jogo_termo';
+$db   = 'jogo_web1';
 $user = 'root';
-$pass = 'usuariogrupo1'; 
+$pass = ''; 
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";

@@ -2,25 +2,32 @@
 session_start();
 require_once __DIR__ . '/../../config/db.php';
 
-header('Content-Type: application/json');
-
 if (!isset($_SESSION['usuario_id'])) {
-    echo json_encode(['success' => false, 'message' => 'Sessão expirada.']);
+    http_response_code(403);
+    echo json_encode(['sucesso' => false, 'mensagem' => 'Usuário não autenticado']);
     exit;
 }
 
-$data = json_decode(file_get_contents('php://input'), true);
-$pontuacao = isset($data['pontuacao']) ? (int)$data['pontuacao'] : -1;
+$json_input = file_get_contents('php://input');
+$dados = json_decode($json_input, true);
 
-if ($pontuacao < 0) {
-    echo json_encode(['success' => false, 'message' => 'Pontuação inválida.']);
-    exit;
-}
+if (isset($dados['pontos'])) {
+    $usuario_id = $_SESSION['usuario_id'];
+    $pontos = (int)$dados['pontos'];
+    
+    try {
+        $stmt = $pdo->prepare("INSERT INTO partidas (usuario_id, pontos, data_partida) VALUES (:usuario_id, :pontos, NOW())");
+        $stmt->execute([
+            ':usuario_id' => $usuario_id,
+            ':pontos' => $pontos
+        ]);
 
-try {
-    $stmt = $pdo->prepare('INSERT INTO partidas (usuario_id, pontuacao) VALUES (?, ?)');
-    $stmt->execute([$_SESSION['usuario_id'], $pontuacao]);
-    echo json_encode(['success' => true]);
-} catch (\PDOException $e) {
-    echo json_encode(['success' => false, 'message' => 'Erro ao salvar no banco.']);
+        echo json_encode(['sucesso' => true, 'mensagem' => 'Pontuação gravada com sucesso!']);
+    } catch (PDOException $e) {
+        http_response_code(500);
+        echo json_encode(['sucesso' => false, 'mensagem' => 'Erro no banco de dados: ' . $e->getMessage()]);
+    }
+} else {
+    http_response_code(400);
+    echo json_encode(['sucesso' => false, 'mensagem' => 'Dados inválidos']);
 }

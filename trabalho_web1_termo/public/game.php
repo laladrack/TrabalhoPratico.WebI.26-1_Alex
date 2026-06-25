@@ -1,28 +1,37 @@
-<!doctype html>
+<?php
+session_start();
+// bolta pro login seus coisa!
+
+if (!isset($_SESSION['usuario_id'])) {
+    header('Location: login.php');
+    exit;
+}
+?>
+<!DOCTYPE html>
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <title>TERMO - Jogo</title>
-    <link rel="icon" type="image/png" href="../images/iconTPurple.png" />
-    <link rel="stylesheet" href="./css/game_style.css" />
+    <link rel="icon" type="image/png" href="./images/iconTPurple.png" />
+    <link rel="stylesheet" href="./game_style.css" />
   </head>
   <body>
     <div class="top">
       <div class="back">
-        <a href="../index.html">← Sair</a>
+        <a href="./dashboard.php">← Voltar ao Painel</a>
       </div>
       <div class="new">
-        <a href="game.html">Novo</a>
+        <a href="game.php">Novo</a>
       </div>
     </div>
 
     <h1 class="title">TERMO</h1>
-    <p class="subtitle">Olá</p>
+    <p class="subtitle">Olá, <?= htmlspecialchars($_SESSION['usuario_nome']) ?>!</p>
     <p class="attempts">Tentativa 0/6</p>
 
     <div class="card">
-      <!-- Grid de tentativas -->
       <div class="grid">
+        <?php for ($i = 0; $i < 6; $i++): ?>
         <div class="row">
           <div class="cell"></div>
           <div class="cell"></div>
@@ -30,44 +39,9 @@
           <div class="cell"></div>
           <div class="cell"></div>
         </div>
-        <div class="row">
-          <div class="cell"></div>
-          <div class="cell"></div>
-          <div class="cell"></div>
-          <div class="cell"></div>
-          <div class="cell"></div>
-        </div>
-        <div class="row">
-          <div class="cell"></div>
-          <div class="cell"></div>
-          <div class="cell"></div>
-          <div class="cell"></div>
-          <div class="cell"></div>
-        </div>
-        <div class="row">
-          <div class="cell"></div>
-          <div class="cell"></div>
-          <div class="cell"></div>
-          <div class="cell"></div>
-          <div class="cell"></div>
-        </div>
-        <div class="row">
-          <div class="cell"></div>
-          <div class="cell"></div>
-          <div class="cell"></div>
-          <div class="cell"></div>
-          <div class="cell"></div>
-        </div>
-        <div class="row">
-          <div class="cell"></div>
-          <div class="cell"></div>
-          <div class="cell"></div>
-          <div class="cell"></div>
-          <div class="cell"></div>
-        </div>
+        <?php endfor; ?>
       </div>
 
-      <!-- Teclado virtual -->
       <div class="keyboard">
         <div class="keyboard-row">
           <button class="letter">Q</button>

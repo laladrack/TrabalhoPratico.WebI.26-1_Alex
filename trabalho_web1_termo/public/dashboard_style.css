@@ -1,0 +1,230 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #dab1ff, #fbcee8);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.navbar {
+    width: 100%;
+    background: #6a0dad;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    padding: 15px 0;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.navbar-container {
+    width: 90%;
+    max-width: 1100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-brand {
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.navbar-links a {
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9rem;
+    margin-left: 15px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+.btn-history {
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.5);
+}
+
+.btn-history:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.btn-logout {
+    color: #fff;
+    background: #e06666;
+}
+
+.btn-logout:hover {
+    background: #cc4444;
+}
+
+.main-container {
+    width: 90%;
+    max-width: 1100px;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+@media (max-width: 850px) {
+    .main-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+.game-card, .side-card {
+    background: #fff;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    box-sizing: border-box;
+}
+
+.game-card {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.side-card {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Títulos e Textos */
+h3, h5, h6 {
+    margin: 0 0 10px 0;
+    color: #333;
+}
+
+h3 {
+    font-size: 1.6rem;
+    color: #6a0dad;
+}
+
+.text-muted {
+    color: #666;
+    font-size: 0.95rem;
+    margin-bottom: 15px;
+}
+
+#palavra-alvo {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #6a0dad;
+    margin: 25px 0;
+    letter-spacing: 2px;
+}
+
+#campo-digitacao {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    text-align: center;
+    font-weight: bold;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+#campo-digitacao:focus {
+    border-color: #6a0dad;
+    box-shadow: 0 0 0 3px rgba(106, 13, 173, 0.1);
+}
+
+.game-stats {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.game-stats h5 {
+    font-size: 1.1rem;
+}
+
+.game-stats span {
+    font-weight: bold;
+    color: #6a0dad;
+}
+
+#tempo-jogo {
+    color: #e06666 !important;
+}
+
+.liga-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+@media (max-width: 550px) {
+    .liga-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+.form-box {
+    background: #fdf8ff;
+    border: 1px solid #ebd4ff;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.form-box h5 {
+    font-size: 1rem;
+    color: #6a0dad;
+    margin-bottom: 10px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+input[type="text"], select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    box-sizing: border-box;
+}
+
+button, .btn-submit {
+    padding: 10px;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: opacity 0.2s;
+}
+
+button:hover { opacity: 0.9; }
+
+.btn-purple { background: #6a0dad; }
+.btn-green { background: #6aa84f; }
+.btn-gray { background: #777; margin-top: 15px; }
+
+.select-container {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+}
+
+.nav-tabs {
+    display: flex;
+    gap: 5px;
+    border-bottom: 2px solid #dab1ff;
+    margin: 15px 0 10px 0;
+    padding: 0;}

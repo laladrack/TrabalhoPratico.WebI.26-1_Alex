@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $senha = $_POST['senha'] ?? '';
 
     if (!$nome || !$email || empty($senha)) {
-        header('Location: ../../public/cadastro.php?error=Preencha todos os campos corretamente.');
+        header('Location: /web1/public/cadastro.php?error=Preencha todos os campos corretamente.');
         exit;
     }
 
@@ -18,13 +18,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare('INSERT INTO usuarios (nome, email, senha) VALUES (?, ?, ?)');
         $stmt->execute([$nome, $email, $senha_hash]);
 
-        header('Location: ../../public/index.php?success=Cadastro realizado! Faça login.');
+        $usuario_id = $pdo->lastInsertId();
+
+        $_SESSION['usuario_id'] = $usuario_id;
+        $_SESSION['usuario_nome'] = $nome;
+
+        // Redireciona de forma direta e limpa para o dashboard
+        header('Location: /web1/public/dashboard.php');
         exit;
+        
     } catch (\PDOException $e) {
-        if ($e->getCode() == 23000) { 
-            header('Location: ../../public/cadastro.php?error=Este e-mail já está cadastrado.');
+        if ($e->getCode() == 23000) {
+            header('Location: /web1/public/cadastro.php?error=Este e-mail já está cadastrado.');
         } else {
-            header('Location: ../../public/cadastro.php?error=Erro ao cadastrar usuário.');
+            header('Location: /web1/public/cadastro.php?error=Erro ao cadastrar usuário.');
         }
         exit;
     }

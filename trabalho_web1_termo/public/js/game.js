@@ -11,7 +11,7 @@ let listaPalavras = [];
 async function carregarPalavras() {
   if (listaPalavras.length > 0) return listaPalavras; // usa cache
 
-  const response = await fetch("../data/palavras.json");
+  const response = await fetch("data/palavras.json");
   const data = await response.json();
   const validas = data.palavras
     .map((p) => normalizarTexto(p))
@@ -74,13 +74,11 @@ async function confirmarTentativa() {
     .map((c) => c.textContent)
     .join("");
 
-  //  Validação: checar se a palavra está na lista. 
-  // o problema é que a lista não tem todas palavras, isso pode ser meio chato pro jogador, por favor professor não utilize palavras dificeis.
   const palavras = await carregarPalavras();
   const validas = palavras.map((p) => normalizarTexto(p));
   if (!validas.includes(tentativa)) {
     mostrarMensagem("Palavra inválida!");
-    return; // não prossegue com avaliação
+    return;
   }
 
   const resultado = avaliarTentativa(tentativa, palavraSecreta);
@@ -102,17 +100,41 @@ async function confirmarTentativa() {
     async () => {
       if (ganhou) {
         jogoAtivo = false;
-        mostrarMensagem("🎉 Parabéns! Acertou!");
+        
+        const pontosGanhos = (TOTAL_TENTATIVAS - (tentativaAtual - 1)) * 10;
+        
+        mostrarMensagem(`🎉 Parabéns! Acertou! (+${pontosGanhos} pontos)`);
+        
+        enviarPontuacaoParaServidor(pontosGanhos);
+
       } else if (tentativaAtual >= TOTAL_TENTATIVAS) {
         jogoAtivo = false;
         mostrarMensagem(`Fim de jogo! A palavra era: ${palavraSecreta}`);
+        
+        enviarPontuacaoParaServidor(0);
       }
     },
     TOTAL_LETRAS * 120 + 200,
   );
 }
 
-// validar tentativa e marcar cores
+function enviarPontuacaoParaServidor(pontos) {
+  fetch('../src/Actions/salvar_pontuacao.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ pontos: pontos })
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log("Resposta do Servidor:", data.mensagem);
+  })
+  .catch(error => {
+    console.error("Erro ao salvar pontuação:", error);
+  });
+}
+
 function avaliarTentativa(tentativa, secreta) {
   const resultado = Array(TOTAL_LETRAS).fill("errado");
   const letrasSecreta = secreta.split("");
@@ -127,7 +149,6 @@ function avaliarTentativa(tentativa, secreta) {
     }
   });
 
-  // Segunda passagem: letras certas no lugar errado (amarelo)
   letrasTentativa.forEach((letra, i) => {
     if (resultado[i] === "certo") return;
     const j = letrasSecreta.findIndex((l, idx) => l === letra && !usado[idx]);
@@ -140,7 +161,6 @@ function avaliarTentativa(tentativa, secreta) {
   return resultado;
 }
 
-//atualizar teclado virtual
 function atualizarTecla(letra, status) {
   const prioridade = { certo: 3, presente: 2, errado: 1 };
   const botoes = document.querySelectorAll(
@@ -209,29 +229,52 @@ async  function resetarJogo() {
 }
 
 async function iniciar() {
-  palavraSecreta = await novaPalavra();
-  console.log("Palavra (debug):", palavraSecreta);
+  try {
+    console.log("Tentando carregar palavras...");
+    palavraSecreta = await novaPalavra();
+    console.log("Palavra carregada com sucesso (debug):", palavraSecreta);
+  } catch (erro) {
+    console.error("ERRO CRÍTICO AO CARREGAR PALAVRA:", erro);
+    palavraSecreta = "TERMO"; 
+    mostrarMensagem("Aviso: Usando banco de dados temporário.");
+  }
+
   atualizarTentativa();
  
-  // Teclado virtual
+  console.log("Ativando ouvintes do teclado virtual...");
   document.querySelectorAll(".keyboard .letter").forEach((btn) => {
-    btn.addEventListener("click", () => inserirLetra(btn.textContent.trim()));
+    btn.addEventListener("click", () => {
+      console.log("Letra clicada:", btn.textContent.trim()); // Log de teste
+      inserirLetra(btn.textContent.trim());
+    });
   });
  
   document.querySelectorAll(".keyboard .special").forEach((btn) => {
     if (btn.textContent.includes("⌫")) {
-      btn.addEventListener("click", apagarLetra);
+      btn.addEventListener("click", () => {
+        console.log("Apagar clicado");
+        apagarLetra();
+      });
     } else if (btn.textContent.includes("ENTER")) {
-      btn.addEventListener("click", confirmarTentativa);
+      btn.addEventListener("click", () => {
+        console.log("Enter clicado");
+        confirmarTentativa();
+      });
     }
   });
-  // botao resetar
-  document.querySelector(".new a").addEventListener("click", async (e) => {
-    e.preventDefault();
-    await resetarJogo();
-  });
-  //teclado físico
+
+  const botaoNovo = document.querySelector(".new a");
+  if (botaoNovo) {
+    botaoNovo.addEventListener("click", async (e) => {
+      e.preventDefault();
+      await resetarJogo();
+    });
+  }
+
+  console.log("Ativando ouvinte do teclado físico...");
   document.addEventListener("keydown", (e) => {
+    if (!jogoAtivo) return;
+    
     if (e.key === "Enter") {
       confirmarTentativa();
     } else if (e.key === "Backspace") {

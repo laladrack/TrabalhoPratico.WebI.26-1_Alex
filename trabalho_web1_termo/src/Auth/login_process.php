@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $senha = $_POST['senha'] ?? '';
 
     if (!$email || empty($senha)) {
-        header('Location: ../../public/index.php?error=Por favor, preencha todos os campos.');
+        header('Location: ../../public/login.php?error=Por favor, preencha todos os campos.');
         exit;
     }
 
@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: ../../public/dashboard.php');
         exit;
     } else {
-        header('Location: ../../public/index.php?error=E-mail ou senha incorretos.');
+        header('Location: ../../public/login.php?error=E-mail ou senha incorretos.');
         exit;
     }
 }
