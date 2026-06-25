@@ -64,7 +64,7 @@ function apagarLetra() {
 
 async function confirmarTentativa() {
   if (!jogoAtivo || letraAtual < TOTAL_LETRAS) {
-    if (letraAtual < TOTAL_LETRAS) mostrarMensagem("Não é essa palavra não!");
+    if (letraAtual < TOTAL_LETRAS) mostrarMensagem("Precisa de 5 letras colega!");
     return;
   }
 
