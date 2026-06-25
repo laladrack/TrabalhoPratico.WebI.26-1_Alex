@@ -6,10 +6,10 @@ Clone do Wordle em português com sistema de autenticação, ligas entre jogador
 
 ## Tecnologias
 
-- **Front-end:** HTML, CSS, JavaScript puro
-- **Back-end:** PHP 8.x
-- **Banco de dados:** MySQL (via PDO)
-- **Servidor local:** XAMPP / WAMP
+- **Front-end:** HTML, CSS, JavaScript
+- **Back-end:** PHP 
+- **Banco de dados:** MySQL
+- **Servidor local:** XAMPP
 
 ---
 
