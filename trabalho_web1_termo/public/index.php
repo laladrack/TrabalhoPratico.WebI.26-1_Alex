@@ -42,7 +42,7 @@
         </div>
       </div>
 
-      <a href="login/login.html" class="btn">Começar a Jogar</a>
+      <a href="./login.php" class="btn">Começar a Jogar</a>
 
       <div class="how-to-play">
         <h2>Como jogar:</h2>
