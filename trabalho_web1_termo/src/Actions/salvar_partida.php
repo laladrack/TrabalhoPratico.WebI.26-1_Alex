@@ -2,9 +2,11 @@
 session_start();
 require_once __DIR__ . '/../../config/db.php';
 
+header('Content-Type: application/json');
+
 if (!isset($_SESSION['usuario_id'])) {
     http_response_code(403);
-    echo json_encode(['sucesso' => false, 'mensagem' => 'Usuário não autenticado']);
+    echo json_encode(['sucesso' => false, 'mensagem' => 'Usuário não autenticado.']);
     exit;
 }
 
@@ -23,11 +25,14 @@ if (isset($dados['pontos'])) {
         ]);
 
         echo json_encode(['sucesso' => true, 'mensagem' => 'Pontuação gravada com sucesso!']);
+        exit;
     } catch (PDOException $e) {
         http_response_code(500);
-        echo json_encode(['sucesso' => false, 'mensagem' => 'Erro no banco de dados: ' . $e->getMessage()]);
+        echo json_encode(['sucesso' => false, 'mensagem' => 'Erro ao salvar no banco de dados: ' . $e->getMessage()]);
+        exit;
     }
 } else {
     http_response_code(400);
-    echo json_encode(['sucesso' => false, 'mensagem' => 'Dados inválidos']);
+    echo json_encode(['sucesso' => false, 'mensagem' => 'Dados de pontuação ausentes.']);
+    exit;
 }
