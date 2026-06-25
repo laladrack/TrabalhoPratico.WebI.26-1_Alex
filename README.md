@@ -17,35 +17,30 @@
 - HTML / CSS / JavaScript
 - XAMPP para execução local
 
-## Estrutura do Projeto
+## Estrutura de Diretórios
 
-- `public/` — frontend e páginas públicas
-  - `index.php` — tela inicial
-  - `login.php` — login de usuários
-  - `register.php` — cadastro de novos usuários
-  - `dashboard.php` — painel com placar e ligas
-  - `game.php` — jogo principal
-  - `relatorio.php` — histórico de partidas
-  - `js/game.js` — lógica do jogo e requisições de pontuação
-  - `js/data/palavras.json` — dicionário de palavras válidas
-- `config/db.php` — conexão com o MySQL
-- `src/` — backend protegido
-  - `Auth/login_process.php` — validação do login
-  - `Auth/cadastro_process.php` — cadastro de usuário
-  - `Actions/salvar_partida.php` — grava resultados das partidas
-  - `Actions/criar_liga.php` — criação de ligas
-  - `Actions/entrar_liga.php` — entrada em ligas
-  - `Queries/consultas_placar.php` — consultas de ranking
-- `database/schema.sql` — esquema para criar tabelas do banco
-
-## Instalação
-
-### 1. Copie para o XAMPP
-
-Coloque a pasta `trabalho_web1_termo` em:
-
-```bash
-C:/xampp/htdocs/
+```text
+web1/
+├── config/
+│   └── db.php                  # Conexão centralizada via PDO
+├── database/
+│   └── criacao_sql.sql         # Script de modelagem do banco de dados
+├── public/
+│   ├── css/                    # Estilizações da interface (Game, Login, Dashboard)
+│   ├── data/
+│   │   └── palavras.json       # Banco de dados local de termos (5 letras)
+│   ├── js/
+│   │   └── game.js             # Lógica do motor do jogo e consumo da API interna
+│   ├── dashboard.php           # Painel principal do utilizador e classificações
+│   ├── game.php                # Interface dinâmica do tabuleiro do jogo
+│   └── login.php / cadastro.php# Fluxo de autenticação
+└── src/
+    ├── Actions/
+    │   ├── criar_liga.php      # Regra de negócio para criação de ligas
+    │   ├── entrar_liga.php     # Validação e vínculo de membros a ligas
+    │   └── salvar_partida.php  # Endpoint/API para gravação de pontuações
+    └── Queries/
+        └── consultas_placar.php# Queries de agregação para rankings globais/semanais
 ```
 
 ### 2. Crie o banco de dados
