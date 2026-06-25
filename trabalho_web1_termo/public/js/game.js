@@ -70,12 +70,7 @@ async function confirmarTentativa() {
 
   const linha = document.querySelectorAll(".row")[tentativaAtual];
   const celulas = linha.querySelectorAll(".cell");
-  const tentativa = Array.from(celulas)
-    .map((c) => c.textContent)
-    .join("");
-
-  
-
+  const tentativa = Array.from(celulas).map((c) => c.textContent).join("");
   const resultado = avaliarTentativa(tentativa, palavraSecreta);
 
   resultado.forEach((status, i) => {
@@ -90,29 +85,23 @@ async function confirmarTentativa() {
   atualizarTentativa();
 
   const ganhou = resultado.every((r) => r === "certo");
+  const acabou = ganhou || tentativaAtual >= TOTAL_TENTATIVAS;
 
-  setTimeout(
-    async () => {
-      if (ganhou) {
-        jogoAtivo = false;
-        
-        //1a tentativa (tentativaAtual = 1): (6 - 0) * 10 = 60 pontos
-        //6atentativa (tentativaAtual = 6): (6 - 5) * 10 = 10 pontos
-        const pontosGanhos = (TOTAL_TENTATIVAS - (tentativaAtual - 1)) * 10;
-        
-        mostrarMensagem(`🎉 Parabéns! Acertou! (+${pontosGanhos} pontos)`);
-        
-        enviarPontuacaoParaServidor(pontosGanhos);
+  // TRAVA IMEDIATAMENTE se o jogo acabou
+  if (acabou) {
+    jogoAtivo = false;
+  }
 
-      } else if (tentativaAtual >= TOTAL_TENTATIVAS) {
-        jogoAtivo = false;
-        mostrarMensagem(`Fim de jogo! A palavra era: ${palavraSecreta}`);
-        
-        enviarPontuacaoParaServidor(0);
-      }
-    },
-    TOTAL_LETRAS * 120 + 200,
-  );
+  setTimeout(async () => {
+    if (ganhou) {
+      const pontosGanhos = (TOTAL_TENTATIVAS - (tentativaAtual - 1)) * 10;
+      mostrarMensagem(`🎉 Parabéns! Acertou! (+${pontosGanhos} pontos)`);
+      enviarPontuacaoParaServidor(pontosGanhos);
+    } else if (tentativaAtual >= TOTAL_TENTATIVAS) {
+      mostrarMensagem(`Fim de jogo! A palavra era: ${palavraSecreta}`);
+      enviarPontuacaoParaServidor(0);
+    }
+  }, TOTAL_LETRAS * 120 + 200);
 }
 
 function enviarPontuacaoParaServidor(pontos) {
