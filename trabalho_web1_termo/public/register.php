@@ -8,7 +8,7 @@
 </head>
 <body>
    <div class="back">
-    <a href="../index.php">← Voltar</a>
+    <a href="index.php">← Voltar</a>
   </div>
 
   <div class="card">

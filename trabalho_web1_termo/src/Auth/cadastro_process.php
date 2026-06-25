@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $senha = $_POST['senha'] ?? '';
 
     if (!$nome || !$email || empty($senha)) {
-        header('Location: /web1/public/cadastro.php?error=Preencha todos os campos corretamente.');
+        header('Location: ../../public/cadastro.php?error=Preencha todos os campos corretamente.');
         exit;
     }
 
@@ -24,14 +24,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['usuario_nome'] = $nome;
 
         // Redireciona de forma direta e limpa para o dashboard
-        header('Location: /web1/public/dashboard.php');
+        header('Location: ../../public/dashboard.php');
         exit;
         
     } catch (\PDOException $e) {
         if ($e->getCode() == 23000) {
-            header('Location: /web1/public/cadastro.php?error=Este e-mail já está cadastrado.');
+            header('Location: ../../public/cadastro.php?error=Este e-mail já está cadastrado.');
         } else {
-            header('Location: /web1/public/cadastro.php?error=Erro ao cadastrar usuário.');
+            header('Location: ../../public/cadastro.php?error=Erro ao cadastrar usuário.');
         }
         exit;
     }
