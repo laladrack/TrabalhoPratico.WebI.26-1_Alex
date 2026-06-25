@@ -108,20 +108,6 @@ No dashboard é possível:
 
 ---
 
-## Banco de dados
-
-### Tabelas
-
-| Tabela | Descrição |
-|---|---|
-| `Usuarios` | Dados dos jogadores (nome, email, senha com bcrypt) |
-| `Ligas` | Ligas criadas pelos usuários |
-| `Membros_Ligas` | Relação entre usuários e ligas |
-| `Partidas` | Histórico de partidas (palavra, tentativas, resultado) |
-| `Dicionario_Palavras` | Palavras válidas para o jogo |
-
----
-
 ## Segurança
 
 - Senhas armazenadas com **bcrypt** (`password_hash` / `password_verify`)
